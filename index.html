@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+    <button id="mp3Button" onclick=mp3Switch() type="button" data-state=0>Play/Stop</button>
+    <button id="micButton" onclick=micSwitch() type="button" data-state=0>Record/Stop</button>
+    <input type="range" name="crossFade" id="crossFade" min=0 max=100 value=50 onchange=crossFade(this)></input>
+    <script src="crossFade.js"></script>
+</body>
+</html>
