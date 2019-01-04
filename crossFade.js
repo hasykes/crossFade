@@ -1,5 +1,6 @@
 const mp3Button = document.querySelector("#mp3Button");
 const micButton = document.querySelector("#micButton");
+const iosButton = document.querySelector("#iosButton");
 const songURL = "audio/Mk.gee - Over Here.mp3";
 
 // Create an AudioContext instance for both microphone and mp3 (1 context 2 sources)
@@ -34,6 +35,20 @@ request.onload = function() {
 
 // Send the request which kicks off
 request.send();
+
+//turn on by playing a silent note on iOS devices
+function iosSwitch() {
+  // create empty buffer
+  var buffer = myContext.createBuffer(1, 1, 22050);
+  var source = myContext.createBufferSource();
+  source.buffer = buffer;
+
+  // connect to output (your speakers)
+  source.connect(myContext.destination);
+
+  // play the file
+  source.noteOn(0);
+}
 
 //toggle mp3
 function mp3Switch() {
