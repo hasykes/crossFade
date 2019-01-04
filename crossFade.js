@@ -5,6 +5,7 @@ const songURL = "audio/Mk.gee - Over Here.mp3";
 
 // Create an AudioContext instance for both microphone and mp3 (1 context 2 sources)
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+var myContext = new (window.AudioContext || window.webkitAudioContext)();
 
 // Create a buffer for the incoming mp3 sound content
 const mp3Source = audioContext.createBufferSource();
