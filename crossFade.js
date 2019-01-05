@@ -37,18 +37,15 @@ request.onload = function() {
 request.send();
 
 //turn on by playing a silent note on iOS devices
-function iosSwitch() {
-  // create empty buffer
-  var buffer = audioContext.createBuffer(1, 1, 22050);
-  var source = audioContext.createBufferSource();
-  source.buffer = buffer;
+const audioSource = function iosSwitch() {
+  //request access to Microphone and process accordingly
+  const audioSource = navigator.mediaDevices
+    .getUserMedia({ audio: true, video: false })
+    .then(handleSuccess)
+    .catch(handleError);
 
-  // connect to output (your speakers)
-  source.connect(audioContext.destination);
-
-  // play the file (chrome vs safari )
-  source.start ? source.start(0) : source.noteOn(0);
-}
+  return audioSource;
+};
 
 //toggle mp3
 function mp3Switch() {
