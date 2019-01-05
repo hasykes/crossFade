@@ -2,6 +2,7 @@ const mp3Button = document.querySelector("#mp3Button");
 const micButton = document.querySelector("#micButton");
 const iosButton = document.querySelector("#iosButton");
 const songURL = "audio/Mk.gee - Over Here.mp3";
+let stream;
 
 // Create an AudioContext instance for both microphone and mp3 (1 context 2 sources)
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -37,26 +38,28 @@ request.onload = function() {
 request.send();
 
 //turn on by playing a silent note on iOS devices
-const audioSource = function iosSwitch() {
+function iosSwitch() {
   //request access to Microphone and process accordingly
-  const audioSource = navigator.mediaDevices
+  navigator.mediaDevices
     .getUserMedia({ audio: true, video: false })
     .then(handleSuccess)
     .catch(handleError);
-
-  return audioSource;
-};
+}
 
 //toggle mp3
 function mp3Switch() {
-  if (mp3Button.dataset.state == 0) {
-    mp3Source.connect(mp3GainNode);
-    mp3GainNode.connect(audioContext.destination);
-    mp3Button.dataset.state = 1;
+  if (stream) {
+    if (mp3Button.dataset.state == 0) {
+      mp3Source.connect(mp3GainNode);
+      mp3GainNode.connect(audioContext.destination);
+      mp3Button.dataset.state = 1;
+    } else {
+      mp3GainNode.disconnect(audioContext.destination);
+      mp3Source.disconnect(mp3GainNode);
+      mp3Button.dataset.state = 0;
+    }
   } else {
-    mp3GainNode.disconnect(audioContext.destination);
-    mp3Source.disconnect(mp3GainNode);
-    mp3Button.dataset.state = 0;
+    console.log("please click Start in iOS before proceeding");
   }
 }
 
@@ -66,15 +69,19 @@ let micGainNode;
 
 //toggle mic
 function micSwitch() {
-  if (micButton.dataset.state == 0) {
-    // connect the source to the context's destination (the speakers)
-    micSource.connect(micGainNode);
-    micGainNode.connect(audioContext.destination);
-    micButton.dataset.state = 1;
+  if (stream) {
+    if (micButton.dataset.state == 0) {
+      // connect the source to the context's destination (the speakers)
+      micSource.connect(micGainNode);
+      micGainNode.connect(audioContext.destination);
+      micButton.dataset.state = 1;
+    } else {
+      micGainNode.disconnect(audioContext.destination);
+      micSource.disconnect(micGainNode);
+      micButton.dataset.state = 0;
+    }
   } else {
-    micGainNode.disconnect(audioContext.destination);
-    micSource.disconnect(micGainNode);
-    micButton.dataset.state = 0;
+    console.log("please click Start in iOS before proceeding");
   }
 }
 
@@ -103,9 +110,3 @@ function crossFade(element) {
   mp3GainNode.gain.value = gain1;
   micGainNode.gain.value = gain2;
 }
-
-//request access to Microphone and process accordingly
-const audioSource = navigator.mediaDevices
-  .getUserMedia({ audio: true, video: false })
-  .then(handleSuccess)
-  .catch(handleError);
