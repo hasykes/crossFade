@@ -46,8 +46,8 @@ function iosSwitch() {
   // connect to output (your speakers)
   source.connect(audioContext.destination);
 
-  // play the file
-  source.noteOn(0);
+  // play the file (chrome vs safari )
+  source.start ? source.start(0) : source.noteOn(0);
 }
 
 //toggle mp3
