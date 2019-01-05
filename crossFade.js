@@ -5,7 +5,6 @@ const songURL = "audio/Mk.gee - Over Here.mp3";
 
 // Create an AudioContext instance for both microphone and mp3 (1 context 2 sources)
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-var myContext = new (window.AudioContext || window.webkitAudioContext)();
 
 // Create a buffer for the incoming mp3 sound content
 const mp3Source = audioContext.createBufferSource();
@@ -40,12 +39,12 @@ request.send();
 //turn on by playing a silent note on iOS devices
 function iosSwitch() {
   // create empty buffer
-  var buffer = myContext.createBuffer(1, 1, 22050);
-  var source = myContext.createBufferSource();
+  var buffer = audioContext.createBuffer(1, 1, 22050);
+  var source = audioContext.createBufferSource();
   source.buffer = buffer;
 
   // connect to output (your speakers)
-  source.connect(myContext.destination);
+  source.connect(audioContext.destination);
 
   // play the file
   source.noteOn(0);
