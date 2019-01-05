@@ -87,6 +87,9 @@ function micSwitch() {
 
 function handleSuccess(stream) {
   console.log(stream.getAudioTracks());
+
+  audioContext.resume(); //resume audio context for iOS issues
+
   micSource = audioContext.createMediaStreamSource(stream);
   micGainNode = audioContext.createGain();
 
